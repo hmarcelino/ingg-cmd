@@ -1,0 +1,6 @@
+[submodule "src/github.com/fatih/color"]
+	path = src/github.com/fatih/color
+	url = https://github.com/fatih/color.git
+[submodule "src/github.com/codegangsta/cli"]
+	path = src/github.com/codegangsta/cli
+	url = https://github.com/codegangsta/cli.git

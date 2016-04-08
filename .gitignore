@@ -1,0 +1,7 @@
+# intellij files
+.idea
+*.iml
+
+# go directories
+bin
+pkg
