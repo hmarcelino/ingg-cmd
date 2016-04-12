@@ -24,7 +24,6 @@ Global Options
 var inggCommandHelpTemplate = `Usage: {{.HelpName}}{{if .Flags}} [command options]{{end}} {{if .ArgsUsage}}{{ .ArgsUsage}}{{else}}[arguments...]{{end}}
 
 {{if .Description}}{{.Description}}{{end}}
-
 {{if .Flags}}
 Options:
    {{range .Flags}}{{.}}
