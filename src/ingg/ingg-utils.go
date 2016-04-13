@@ -26,20 +26,10 @@ var PrintDanger = func(txt string) {
     danger(txt);
 }
 
-// Print the bytes array in the
-// standard output
-func printOutput(outs []byte) {
-    if len(outs) > 0 {
-        os.Stdout.WriteString(fmt.Sprintf("==> Output:\n%s\n", string(outs)))
-    }
-}
-
 // Control the panic output and write
 // in the standard error output
-func printError(err error) {
+func PrintError(err error) {
     if err != nil {
-        //os.Stderr.WriteString(color.Red("==> Error: %s\n", err.Error()))
-        color.Red("==> Error:\n%s\n", err.Error())
+        os.Stderr.WriteString(fmt.Sprintf("==> Error: %s\n", err.Error()))
     }
 }
-

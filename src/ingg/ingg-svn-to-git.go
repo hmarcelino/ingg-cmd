@@ -70,16 +70,19 @@ var SvnToGit = cli.Command{
             os.Exit(1)
         }
 
+        PrintMsg("Svn repositories found:")
         svnRepos := _findRepositories(c.String("http"), 0)
 
-        if len(svnRepos) != 0 {
-            PrintMsg(fmt.Sprintf("Found %d repositories: \n * %s", len(svnRepos), strings.Join(svnRepos, "\n * ")))
-        }else {
+        if len(svnRepos) == 0 {
             PrintWarning("No repositories found")
+            os.Exit(0)
         }
     },
 }
 
+// search through the repository to find all folders
+// that are svn repositories and return the full http
+// paths that will be used in the git svn clone.
 func _findRepositories(httpBasePath string, depth int) []string {
 
     var svnRepos []string = make([]string, 0)
@@ -90,7 +93,20 @@ func _findRepositories(httpBasePath string, depth int) []string {
 
     var subFolders []string = _getSubFolders(httpBasePath);
 
-    if isRepo := _isSvnRepository(subFolders); !isRepo {
+    // A repository is identified if there is
+    // a subfolder with name "trunk"
+    isRepo := func(subFolders[]string) bool {
+        var joinedFolders = strings.Join(subFolders, ";");
+
+        if (strings.Contains(joinedFolders, "trunk")) {
+            return true
+
+        }else {
+            return false
+        }
+    }(subFolders)
+
+    if !isRepo {
         depth = depth + 1
 
         if (depth > maxDepth) {
@@ -113,10 +129,7 @@ func _findRepositories(httpBasePath string, depth int) []string {
             }
         }
     }else {
-        if verbose {
-            PrintMsg(fmt.Sprintf("Found SVN repository: %s", httpBasePath));
-        }
-
+        PrintMsg(httpBasePath);
         svnRepos = append(svnRepos, httpBasePath);
     }
 
@@ -143,18 +156,3 @@ func _getSubFolders(httpPath string) (subFolders []string) {
 
     return folders
 }
-
-// A repository is identified if there is
-// a subfolder with name "trunk"
-func _isSvnRepository(subFolders []string) bool {
-    var joinedFolders = strings.Join(subFolders, ";");
-
-    if (strings.Contains(joinedFolders, "trunk")) {
-        return true
-
-    }else {
-        return false
-    }
-}
-
-
