@@ -7,6 +7,7 @@ import (
 )
 
 var info = color.New(color.FgBlue).PrintlnFunc()
+var success = color.New(color.FgGreen).PrintlnFunc()
 var danger = color.New(color.FgRed).PrintlnFunc()
 var warning = color.New(color.FgHiYellow).PrintlnFunc()
 
@@ -16,6 +17,10 @@ var PrintMsg = func(txt string) {
 
 var PrintInfo = func(txt string) {
     info(txt);
+}
+
+var PrintSuccess = func(txt string) {
+    success(txt);
 }
 
 var PrintWarning = func(txt string) {
