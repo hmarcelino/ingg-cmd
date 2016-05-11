@@ -21,19 +21,11 @@ Global Options
 // The text template for the command help topic.
 // cli.go uses text/template to render templates. You can
 // render custom help text by setting this variable.
-var inggCommandHelpTemplate = `NAME:
-   {{.HelpName}} - {{.Usage}}
+var inggCommandHelpTemplate = `Usage: {{.HelpName}}{{if .Flags}} [command options]{{end}} {{if .ArgsUsage}}{{ .ArgsUsage}}{{else}}[arguments...]{{end}}
 
-USAGE:
-   {{.HelpName}}{{if .Flags}} [command options]{{end}} {{if .ArgsUsage}}{{.ArgsUsage}}{{else}}[arguments...]{{end}}{{if .Category}}
-
-CATEGORY:
-   {{.Category}}{{end}}{{if .Description}}
-
-DESCRIPTION:
-   {{.Description}}{{end}}{{if .Flags}}
-
-OPTIONS:
+{{if .Description}}{{.Description}}{{end}}
+{{if .Flags}}
+Options:
    {{range .Flags}}{{.}}
    {{end}}{{ end }}
 `
@@ -61,6 +53,10 @@ func main() {
         }
 
         return nil
+    }
+
+    app.Commands = []cli.Command{
+        SvnToGit,
     }
 
     app.Run(os.Args)
