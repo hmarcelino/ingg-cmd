@@ -67,6 +67,7 @@ var MavenBuild = cli.Command{
         if (len(modules) > 0 ) {
             for _, module := range modules {
 
+                Print.PrintInfo(fmt.Sprintf("Building Module: %s", module))
                 os.Chdir(currentDir + "/" + module);
 
                 cmd := exec.Command("mvn", "clean", "install")
@@ -83,6 +84,10 @@ var MavenBuild = cli.Command{
                 } else {
                     Print.PrintDanger(fmt.Sprintf("* Error building module: %s", module))
                     Print.PrintError(err)
+                    Print.PrintMsg("")
+                    Print.PrintMsg("Stopping here!")
+
+                    os.Exit(10)
                 }
             }
         }
