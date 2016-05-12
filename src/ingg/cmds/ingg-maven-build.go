@@ -34,6 +34,8 @@ var MavenBuild = cli.Command{
     Action: func(c *cli.Context) {
         var isValid bool = true
 
+        currentDir, _ := os.Getwd();
+
         file := c.String("file")
         configBlock := c.String("block")
 
@@ -65,7 +67,7 @@ var MavenBuild = cli.Command{
         if (len(modules) > 0 ) {
             for _, module := range modules {
 
-                os.Chdir(module);
+                os.Chdir(currentDir + "/" + module);
 
                 cmd := exec.Command("mvn", "clean", "install")
                 if Verbose {
@@ -73,7 +75,7 @@ var MavenBuild = cli.Command{
                     cmd.Stderr = os.Stderr
                 }
 
-                err :=cmd.Run()
+                err := cmd.Run()
 
                 if err == nil {
                     Print.PrintSuccess(fmt.Sprintf("* Module build done: %s", module))
