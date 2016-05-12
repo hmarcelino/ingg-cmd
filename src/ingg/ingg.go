@@ -4,6 +4,8 @@ import (
     "os"
     "github.com/codegangsta/cli"
     "github.com/fatih/color"
+    "ingg/cmds"
+    "ingg/utils"
 )
 
 var inggAppHelpTemplate = `Usage: {{if .UsageText}}{{.UsageText}}{{else}}{{.HelpName}} {{if .Flags}}[global options]{{end}}{{if .Commands}} command [command options]{{end}} {{if .ArgsUsage}}{{.ArgsUsage}}{{else}}[arguments...]{{end}}{{end}}
@@ -43,6 +45,10 @@ func main() {
             Name: "no-color, nc",
             Usage: "Disable colored output",
         },
+        cli.BoolFlag{
+            Name: "verbose, x",
+            Usage: "Print more information of the process",
+        },
     }
 
     app.Before = func(c *cli.Context) error {
@@ -52,11 +58,17 @@ func main() {
             color.NoColor = true
         }
 
+        if c.Bool("verbose") {
+            utils.PrintMsg("Verbose mode enabled")
+            cmds.Verbose = true
+        }
+
         return nil
     }
 
     app.Commands = []cli.Command{
-        SvnToGit,
+        cmds.SvnToGit,
+        cmds.MavenBuild,
     }
 
     app.Run(os.Args)

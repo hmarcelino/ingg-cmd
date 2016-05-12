@@ -1,4 +1,4 @@
-package main
+package utils
 
 import (
     "github.com/fatih/color"
@@ -6,29 +6,29 @@ import (
     "fmt"
 )
 
-var info = color.New(color.FgBlue).PrintlnFunc()
-var success = color.New(color.FgGreen).PrintlnFunc()
-var danger = color.New(color.FgRed).PrintlnFunc()
-var warning = color.New(color.FgHiYellow).PrintlnFunc()
+var Info = color.New(color.FgBlue).PrintlnFunc()
+var Success = color.New(color.FgGreen).PrintlnFunc()
+var Danger = color.New(color.FgRed).PrintlnFunc()
+var Warning = color.New(color.FgHiYellow).PrintlnFunc()
 
 var PrintMsg = func(txt string) {
     fmt.Println(txt)
 }
 
 var PrintInfo = func(txt string) {
-    info(txt);
+    Info(txt);
 }
 
 var PrintSuccess = func(txt string) {
-    success(txt);
+    Success(txt);
 }
 
 var PrintWarning = func(txt string) {
-    warning(txt);
+    Warning(txt);
 }
 
 var PrintDanger = func(txt string) {
-    danger(txt);
+    Danger(txt);
 }
 
 // Control the panic output and write
