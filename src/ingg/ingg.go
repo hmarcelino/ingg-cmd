@@ -6,6 +6,7 @@ import (
     "github.com/fatih/color"
     "ingg/cmds"
     "ingg/utils"
+    "fmt"
 )
 
 var inggAppHelpTemplate = `Usage: {{if .UsageText}}{{.UsageText}}{{else}}{{.HelpName}} {{if .Flags}}[global options]{{end}}{{if .Commands}} command [command options]{{end}} {{if .ArgsUsage}}{{.ArgsUsage}}{{else}}[arguments...]{{end}}{{end}}
@@ -40,6 +41,7 @@ func main() {
     app := cli.NewApp()
     app.Name = "ingg"
     app.Version = "1.0.0"
+    app.EnableBashCompletion = true
     app.Flags = []cli.Flag{
         cli.BoolFlag{
             Name: "no-color, nc",
@@ -69,6 +71,24 @@ func main() {
     app.Commands = []cli.Command{
         cmds.SvnToGit,
         cmds.MavenBuild,
+        {
+            Name:  "complete",
+            Aliases: []string{"c"},
+            Usage: "complete a task on the list",
+            Action: func(c *cli.Context) error {
+                fmt.Println("completed task: ", c.Args().First())
+                return nil
+            },
+            BashComplete: func(c *cli.Context) {
+                // This will complete if no args are passed
+                if c.NArg() > 0 {
+                    return
+                }
+                for _, t := range tasks {
+                    fmt.Println(t)
+                }
+            },
+        },
     }
 
     app.Run(os.Args)
