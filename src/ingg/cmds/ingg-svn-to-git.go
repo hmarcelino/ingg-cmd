@@ -154,7 +154,7 @@ func findRepositories(httpBasePath string, depth int) []string {
     return svnRepos;
 }
 
-func getSubFolders(httpPath string) (subFolders []string) {
+func getSubFolders(httpPath string) ([]string) {
     cmd := exec.Command("svn", "list", httpPath)
     output, err := cmd.CombinedOutput()
     if err != nil {

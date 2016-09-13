@@ -75,17 +75,16 @@ func main() {
             Name:  "complete",
             Aliases: []string{"c"},
             Usage: "complete a task on the list",
-            Action: func(c *cli.Context) error {
+            Action: func(c *cli.Context) {
                 fmt.Println("completed task: ", c.Args().First())
-                return nil
             },
             BashComplete: func(c *cli.Context) {
                 // This will complete if no args are passed
                 if c.NArg() > 0 {
                     return
                 }
-                for _, t := range tasks {
-                    fmt.Println(t)
+                for _, cmd := range app.Commands {
+                    fmt.Println(cmd.Name)
                 }
             },
         },
