@@ -59,15 +59,21 @@ var SvnToGit = cli.Command{
         binary, lookErr = exec.LookPath("git")
         if lookErr != nil {
             Print.Danger("* git: executable file not found in PATH")
-            isValid = false
+
         } else {
             Print.PrintInfo(fmt.Sprintf("* Found GIT at %s", binary))
+        }
+
+        baseHttp := c.String("http")
+        if baseHttp == "" {
+            Print.Danger("* No svn http server defined")
+            isValid = false
         }
 
         Print.PrintMsg("")
 
         if !isValid {
-            Print.Danger("Requirements not met! Please make available SVN and GIT")
+            Print.Danger("Requirements not met! Please fix the identified errors")
             os.Exit(1)
         }
 
@@ -79,8 +85,6 @@ var SvnToGit = cli.Command{
         }
 
         Print.PrintMsg("Svn repositories found:")
-
-        baseHttp := c.String("http")
         if !strings.HasSuffix(baseHttp, "/") {
             baseHttp = baseHttp + "/"
         }
