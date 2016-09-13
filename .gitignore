@@ -5,3 +5,4 @@
 # go directories
 bin
 pkg
+dist
